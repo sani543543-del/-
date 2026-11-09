@@ -1,26 +1,8 @@
-name: Render Remotion Video
+- name: Install dependencies
+  run: npm ci
 
-on:
-  workflow_dispatch:
+- name: Check compositions
+  run: npx remotion compositions ./src/Index.ts
 
-jobs:
-  render:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-
-      - run: npm install
-
-      - run: npx remotion compositions src/Index.ts
-
-      - run: npx remotion render src/Index.ts Main out/video.mp4
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: rendered-video
-          path: out/video.mp4
-          
+- name: Render video
+  run: npx remotion render ./src/Index.ts Main out/video.mp4
